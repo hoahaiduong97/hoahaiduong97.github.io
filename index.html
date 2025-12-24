@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gallery</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body onload="checkAuth(); startSessionCountdown(); loadGallery()">
+    <header>
+      <div id="tabs"></div>
+      <div class="session-timer" id="sessionTimer">30:00</div>
+      <select onchange="setGrid(this.value)">
+        <option value="1">1 cột</option>
+        <option value="2">2 cột</option>
+        <option value="3" selected>3 cột</option>
+        <option value="4">4 cột</option>
+        <option value="5">5 cột</option>
+        <option value="6">6 cột</option>
+        <option value="7">7 cột</option>
+        <option value="8">8 cột</option>
+        <option value="9">9 cột</option>
+        <option value="10">10 cột</option>
+        <option value="11">11 cột</option>
+        <option value="12">12 cột</option>
+      </select>
+      <button id="logoutBtn" onclick="logout()">Logout</button>
+    </header>
+    <nav id="submenu"></nav>
+    <main id="gallery" class="gallery-grid"></main>
+    <script src="js/auth.js"></script>
+    <script src="js/auth-guard.js"></script>
+    <script src="js/gallery.js"></script>
+    <script src="js/zoom.js"></script>
+  </body>
+</html>
