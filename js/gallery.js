@@ -1,62 +1,193 @@
 let data = {};
 let currentFolder = "";
-let currentIndex = 0;
+let currentImages = [];
+let viewImages = [];
+let pageSize = 50;
+let currentPage = 1;
+let activeMenuItem = null;
 
 async function loadGallery() {
-  data = await fetch("images.json").then((r) => r.json());
-  renderTabs();
+  data = await fetch("images.json").then(r => r.json());
+  renderMenu(data, document.getElementById("menu"), "");
 }
 
-function renderTabs() {
-  const tabs = document.getElementById("tabs");
-  tabs.innerHTML = "";
+function renderMenu(node, container, basePath) {
+  container.innerHTML = "";
 
-  Object.keys(data).forEach((folder) => {
-    const btn = document.createElement("button");
-    btn.textContent = folder;
-    btn.onclick = () => {
-      document
-        .querySelectorAll("header button")
-        .forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      renderImages(folder);
+  Object.entries(node.children).forEach(([name, value]) => {
+    const item = document.createElement("div");
+    item.className = "menu-item";
+
+    const label = document.createElement("div");
+    label.className = "menu-label";
+    label.textContent = name;
+
+    const fullPath = basePath ? `${basePath}/${name}` : name;
+
+    label.onclick = e => {
+      e.stopPropagation();
+
+      if (activeMenuItem) {
+        activeMenuItem.classList.remove("active");
+      }
+      item.classList.add("active");
+      activeMenuItem = item;
+
+      if (Object.keys(value.children).length) {
+        item.classList.toggle("open");
+      }
+
+      // render images
+      if (value.images && value.images.length) {
+        renderImages(fullPath, value.images);
+      }
     };
-    tabs.appendChild(btn);
+
+    item.appendChild(label);
+
+    if (Object.keys(value.children).length) {
+      const sub = document.createElement("div");
+      sub.className = "submenu";
+      renderMenu(value, sub, fullPath);
+      item.appendChild(sub);
+    }
+
+    container.appendChild(item);
   });
 }
 
-function renderImages(folder) {
+document.addEventListener("click", () => {
+  document
+    .querySelectorAll(".menu-item.open")
+    .forEach(el => el.classList.remove("open"));
+});
+
+function renderImages(folder, images) {
   currentFolder = folder;
+  currentImages = [...images];
+
+  viewImages = [...currentImages].sort(() => Math.random() - 0.5);
+  currentPage = 1;
+
+  renderPage();
+}
+
+function applySort(mode) {
+  viewImages = [...currentImages];
+
+  if (mode === "name") viewImages.sort((a, b) => a.name.localeCompare(b.name));
+  if (mode === "date") viewImages.sort((a, b) => b.mtime - a.mtime);
+  if (mode === "size") viewImages.sort((a, b) => b.size - a.size);
+  if (mode === "random") viewImages.sort(() => Math.random() - 0.5);
+
+  currentPage = 1;
+  renderPage();
+}
+
+function changePageSize(size) {
+  pageSize = Number(size);
+  currentPage = 1;
+  renderPage();
+}
+
+function renderPage() {
   const gallery = document.getElementById("gallery");
   gallery.innerHTML = "";
 
-  data[folder].forEach((img, index) => {
+  const start = (currentPage - 1) * pageSize;
+  const pageItems = viewImages.slice(start, start + pageSize);
+
+  pageItems.forEach((img, i) => {
     const div = document.createElement("div");
     div.className = "gallery-item";
 
     const image = document.createElement("img");
-    image.src = `images/${folder}/${img}`;
-    image.onclick = () => openLightbox(index);
+    image.dataset.src = `images/${currentFolder}/${img.name}`;
+    image.alt = img.name;
+    image.className = "lazy";
+    image.onclick = () => openLightbox(start + i);
 
     div.appendChild(image);
     gallery.appendChild(div);
   });
+
+  renderPagination();
+  observeLazyImages();
 }
 
-function setLayout(cls) {
-  document.getElementById("gallery").className = cls;
+function renderPagination() {
+  const total = Math.ceil(viewImages.length / pageSize);
+  const p = document.getElementById("pagination");
+  p.innerHTML = "";
+
+  for (let i = 1; i <= total; i++) {
+    const b = document.createElement("button");
+    b.textContent = i;
+    b.onclick = () => {
+      currentPage = i;
+      renderPage();
+    };
+    if (i === currentPage) b.classList.add("active");
+    p.appendChild(b);
+  }
+}
+
+let lazyObserver = null;
+
+if ("IntersectionObserver" in window) {
+  lazyObserver = new IntersectionObserver(
+    entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          img.onload = () => img.classList.remove("lazy");
+          lazyObserver.unobserve(img);
+        }
+      });
+    },
+    {
+      rootMargin: "300px",
+      threshold: 0.1
+    }
+  );
+}
+
+function observeLazyImages() {
+  const lazyImages = document.querySelectorAll("img.lazy");
+
+  if (!lazyObserver) {
+    lazyImages.forEach(img => {
+      img.src = img.dataset.src;
+      img.classList.remove("lazy");
+    });
+    return;
+  }
+
+  lazyImages.forEach(img => lazyObserver.observe(img));
 }
 
 function setGrid(cols) {
-  const gallery = document.getElementById("gallery");
-  const maxCols = window.innerWidth < 480 ? Math.min(cols, 4) : cols;
-  gallery.style.setProperty("--cols", maxCols);
+  document
+    .getElementById("gallery")
+    .style.setProperty("--cols", cols);
 }
 
-function loadImage(encodedPath) {
-  const realPath = atob(encodedPath);
+/* ================= HEADER AUTO HIDE ================= */
+let lastScrollY = window.scrollY;
+const header = document.querySelector("header");
 
-  return fetch(realPath)
-    .then(res => res.blob())
-    .then(blob => URL.createObjectURL(blob));
-}
+window.addEventListener("scroll", () => {
+  const currentScroll = window.scrollY;
+
+  // kéo xuống → ẩn
+  if (currentScroll > lastScrollY && currentScroll > 80) {
+    header.classList.add("hide");
+  } 
+  // kéo lên → hiện
+  else {
+    header.classList.remove("hide");
+  }
+
+  lastScrollY = currentScroll;
+});

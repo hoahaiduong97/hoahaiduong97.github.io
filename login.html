@@ -3,29 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EERP system - Login</title>
+    <title>Login</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
+
   <body class="login-page">
     <form class="login-card" onsubmit="handleEnter(event)">
-      <h1>EERP system</h1>
-      <p class="subtitle">Secure Photo Gallery</p>
+      <h1>Gallery Login</h1>
 
-      <div class="input-group">
-        <input id="username" placeholder="Username" autocomplete="username" />
-      </div>
-
-      <div class="input-group password-group">
+      <input id="username" placeholder="Username" />
+      <div class="password-wrapper">
         <input
           id="password"
           type="password"
           placeholder="Password"
           autocomplete="current-password"
         />
-        <span class="toggle" onclick="togglePassword()">👁️</span>
+        <span
+          class="toggle-password"
+          onclick="togglePassword(this)"
+          title="Hiện / Ẩn mật khẩu"
+        >
+          👁
+        </span>
       </div>
-
-      <button class="login-btn" type="submit">Login</button>
+      <button type="submit">Login</button>
       <p id="error" class="error"></p>
     </form>
 
