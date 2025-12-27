@@ -58,6 +58,8 @@ header {
   display: none;
   padding: 6px;
   z-index: 9999;
+  max-height: 500px;
+  overflow-y: scroll;
 }
 
 .menu-item.open > .submenu {
