@@ -1,21 +1,120 @@
 {
-  "bigbang": [
-    "ce0002ca99014e14a2276d74a7db31d0.webp",
-    "gdragonava1-1597716430-7452-1597716741.webp",
-    "top-68148870629223674435675.jpg",
-    "Top-Bigbang.jpg"
-  ],
-  "jack": [
-    "ab67616d00001e02a9102c939bfcf85eebf03678.jpg",
-    "image (3).jpg",
-    "images.jpg",
-    "jack-1-1737903814.jpg",
-    "jack-1-1759990102-9131-1759991686.webp",
-    "jack-jpeg-1762516711-7017-1762517010.webp",
-    "jack-ve-que-lam-giau-2-17472863613111184785131-0-34-497-984-crop-17472876049691401366328.webp"
-  ],
-  "sprider-man": [
-    "images.jpg",
-    "Web_of_Spider-Man_Vol_1_129-1.png"
-  ]
+  "images": [],
+  "children": {
+    "dien thoai": {
+      "images": [],
+      "children": {
+        "iphone": {
+          "images": [
+            {
+              "name": "BG-IPHONE-2048px_IPHONE-17-PRO-MAX_BACK.webp",
+              "size": 7368,
+              "mtime": 1768296412795.4373
+            },
+            {
+              "name": "iphone_17_pro_max_silver_1_7b25d56e26.webp",
+              "size": 7054,
+              "mtime": 1768296403857.5122
+            }
+          ],
+          "children": {}
+        },
+        "samsung": {
+          "images": [
+            {
+              "name": "samsung-galaxy-s25-fe-blue-thumbai-600x600.jpg",
+              "size": 31525,
+              "mtime": 1768296427699.924
+            }
+          ],
+          "children": {}
+        }
+      }
+    },
+    "may giat": {
+      "images": [
+        {
+          "name": "1-a8de5f9b-0804-41be-814f-290133b86f96.webp",
+          "size": 29828,
+          "mtime": 1768296326052.4856
+        },
+        {
+          "name": "4850_2.jpg",
+          "size": 32697,
+          "mtime": 1768296271644.2761
+        },
+        {
+          "name": "a.dai-dien.jpg",
+          "size": 34070,
+          "mtime": 1768296321984.6877
+        },
+        {
+          "name": "images (1).jpg",
+          "size": 5966,
+          "mtime": 1768296297663.4016
+        },
+        {
+          "name": "images (2).jpg",
+          "size": 7797,
+          "mtime": 1768296302489.6326
+        },
+        {
+          "name": "images (3).jpg",
+          "size": 3080,
+          "mtime": 1768296350005.5708
+        },
+        {
+          "name": "images.jpg",
+          "size": 6297,
+          "mtime": 1768296290771.1682
+        },
+        {
+          "name": "May-giat-Candy-RO-1284DWH7-1-S-lucasa-1-1000x1000.jpg",
+          "size": 100825,
+          "mtime": 1768296310318.3254
+        },
+        {
+          "name": "may-giat-cua-dung-whirlpool-saniclean-115-kg-vwiid11502fg-11691726694.jpg",
+          "size": 72304,
+          "mtime": 1768296317273.4033
+        },
+        {
+          "name": "may-giat-electrolux-inverter-10-kg-ewf1024m3sb0-thumb-600x600-1.jpg",
+          "size": 49896,
+          "mtime": 1768296331439.9783
+        },
+        {
+          "name": "may-giat-quan-ao-cua-truoc-miele-wcr860wps-w1-9kg.jpg",
+          "size": 205523,
+          "mtime": 1768296339121.9683
+        },
+        {
+          "name": "rw_0912_ene_iw_9f384c4826e14d11b39fde89e9da4ddf_1024x1024.png",
+          "size": 516952,
+          "mtime": 1768296306201.8274
+        },
+        {
+          "name": "So-1.png",
+          "size": 627808,
+          "mtime": 1768296344554.4106
+        }
+      ],
+      "children": {}
+    },
+    "tu lanh": {
+      "images": [
+        {
+          "name": "HITACHI_0000s_0006_HRTN6379SUVN-min.jpg",
+          "size": 10847,
+          "mtime": 1768296236141.308
+        },
+        {
+          "name": "ltb46blg-8035.jpg",
+          "size": 3138,
+          "mtime": 1768296252695.6929
+        }
+      ],
+      "children": {}
+    }
+  }
 }

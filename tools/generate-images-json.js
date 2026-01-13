@@ -4,29 +4,33 @@ const path = require("path");
 const IMAGES_DIR = path.join(__dirname, "../images");
 const IMAGE_REGEX = /\.(jpg|jpeg|png|webp)$/i;
 
-const result = {};
+function scan(dir) {
+  const result = { images: [], children: {} };
 
-fs.readdirSync(IMAGES_DIR).forEach((folder) => {
-  const folderPath = path.join(IMAGES_DIR, folder);
+  fs.readdirSync(dir).forEach((item) => {
+    const full = path.join(dir, item);
+    const stat = fs.statSync(full);
 
-  if (!fs.statSync(folderPath).isDirectory()) return;
+    if (stat.isDirectory()) {
+      const child = scan(full);
+      if (child.images.length || Object.keys(child.children).length) {
+        result.children[item] = child;
+      }
+    } else if (IMAGE_REGEX.test(item)) {
+      result.images.push({
+        name: item,
+        size: stat.size,
+        mtime: stat.mtimeMs,
+      });
+    }
+  });
 
-  const images = fs
-    .readdirSync(folderPath)
-    .filter(
-      (file) =>
-        IMAGE_REGEX.test(file) &&
-        fs.statSync(path.join(folderPath, file)).isFile()
-    );
-
-  if (images.length > 0) {
-    result[folder] = images;
-  }
-});
+  return result;
+}
 
 fs.writeFileSync(
   path.join(__dirname, "../images.json"),
-  JSON.stringify(result, null, 2)
+  JSON.stringify(scan(IMAGES_DIR), null, 2)
 );
 
 console.log("✅ images.json generated");

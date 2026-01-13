@@ -3,34 +3,72 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gallery</title>
+    <title>ERP System</title>
+
+    <link rel="stylesheet" href="css/bootstrap.5.3.3.css" />
     <link rel="stylesheet" href="css/style.css" />
   </head>
+
   <body onload="checkAuth(); startSessionCountdown(); loadGallery()">
-    <header>
-      <div id="tabs"></div>
-      <div class="session-timer" id="sessionTimer">30:00</div>
-      <select onchange="setGrid(this.value)">
-        <option value="1">1 cột</option>
-        <option value="2">2 cột</option>
-        <option value="3" selected>3 cột</option>
-        <option value="4">4 cột</option>
-        <option value="5">5 cột</option>
-        <option value="6">6 cột</option>
-        <option value="7">7 cột</option>
-        <option value="8">8 cột</option>
-        <option value="9">9 cột</option>
-        <option value="10">10 cột</option>
-        <option value="11">11 cột</option>
-        <option value="12">12 cột</option>
-      </select>
-      <button id="logoutBtn" onclick="logout()">Logout</button>
+    <button class="btn btn-sm btn-outline-primary" onclick="toggleHeader()">
+      ☰
+    </button>
+    <header id="mainHeader">
+      <div class="header-left">
+        <nav id="menu"></nav>
+      </div>
+
+      <div class="header-right">
+        <div class="controls">
+          <select class="form-select" onchange="setGrid(this.value)">
+            <option value="1">1 cột</option>
+            <option value="2">2 cột</option>
+            <option value="3" selected>3 cột</option>
+            <option value="4">4 cột</option>
+            <option value="5">5 cột</option>
+            <option value="6">6 cột</option>
+            <option value="7">7 cột</option>
+            <option value="8">8 cột</option>
+            <option value="9">9 cột</option>
+            <option value="10">10 cột</option>
+            <option value="11">11 cột</option>
+            <option value="12">12 cột</option>
+          </select>
+
+          <select class="form-select" onchange="applySort(this.value)">
+            <option value="random" selected>Ngẫu nhiên</option>
+            <option value="name">Tên</option>
+            <option value="date">Ngày</option>
+            <option value="size">Dung lượng</option>
+          </select>
+
+          <select class="form-select" onchange="changePageSize(this.value)">
+            <option>10</option>
+            <option>20</option>
+            <option selected>50</option>
+            <option>100</option>
+            <option>200</option>
+            <option>500</option>
+            <option>1000</option>
+          </select>
+
+          <button class="btn btn-danger btn-sm" onclick="logout()">
+            Logout
+          </button>
+        </div>
+
+        <div id="sessionTimer">30:00</div>
+      </div>
     </header>
-    <nav id="submenu"></nav>
+
     <main id="gallery" class="gallery-grid"></main>
+    <div id="pagination"></div>
+
+    <button id="backToTop" onclick="scrollToTop()">⬆</button>
+
     <script src="js/auth.js"></script>
-    <script src="js/auth-guard.js"></script>
     <script src="js/gallery.js"></script>
     <script src="js/zoom.js"></script>
+    <script src="js/bootstrap.5.3.8.js"></script>
   </body>
 </html>

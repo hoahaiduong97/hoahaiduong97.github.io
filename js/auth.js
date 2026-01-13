@@ -1,73 +1,82 @@
+const SALT = "ERP@2026!@#";
+
+const HASHED_USERNAME =
+  "30e6887bb768dda4d5f46972425c7fdc6cbbe52c756f86ddbceecec6294c0881";
 const HASHED_PASSWORD =
-  "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92";
+  "ea21bf6af5fcc61806f8c9c6fd4c55be6cbd483dc3d1b071c191fddbccdc3ff0";
+const HASHED_CODE =
+  "f328c46a2072541ea7c9c483dac103e8a8f690cb6251ba2558fc5d90b9f7875d";
+
 const SESSION_TIME = 30 * 60 * 1000;
-async function sha256(t) {
-  const b = new TextEncoder().encode(t);
-  const h = await crypto.subtle.digest("SHA-256", b);
-  return [...new Uint8Array(h)]
-    .map((x) => x.toString(16).padStart(2, "0"))
+
+async function sha256(text) {
+  const data = new TextEncoder().encode(text + SALT);
+  const hash = await crypto.subtle.digest("SHA-256", data);
+  return [...new Uint8Array(hash)]
+    .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
 }
+
 async function login() {
-  const u = username.value,
-    p = password.value,
-    h = await sha256(p);
-  if (u === "phuong" && h === HASHED_PASSWORD) {
+  const hu = await sha256(username.value.trim());
+  const hp = await sha256(password.value);
+  const hc = await sha256(code.value.trim());
+  if (hu === HASHED_USERNAME && hp === HASHED_PASSWORD && hc === HASHED_CODE) {
     sessionStorage.setItem("auth", "true");
     sessionStorage.setItem("loginTime", Date.now());
     location.href = "index.html";
   } else {
-    error.textContent = "Sai username hoặc password";
+    error.textContent = "Incorrect login information";
   }
 }
-function checkAuth() {
-  const a = sessionStorage.getItem("auth"),
-    t = sessionStorage.getItem("loginTime");
-  if (!a || Date.now() - t > SESSION_TIME) {
-    sessionStorage.clear();
-    location.href = "login.html";
-  }
-}
-function togglePassword() {
-  const input = document.getElementById("password");
-  input.type = input.type === "password" ? "text" : "password";
-}
+
 function handleEnter(e) {
-  e.preventDefault(); // chặn reload
+  e.preventDefault();
   login();
 }
-let countdownInterval = null;
+
+function checkAuth() {
+  const t = sessionStorage.getItem("loginTime");
+  if (!sessionStorage.getItem("auth") || Date.now() - t > SESSION_TIME) {
+    logout();
+  }
+}
 
 function startSessionCountdown() {
-  const timerEl = document.getElementById("sessionTimer");
-  if (!timerEl) return;
+  const el = document.getElementById("sessionTimer");
+  if (!el) return;
 
-  const loginTime = Number(sessionStorage.getItem("loginTime"));
+  setInterval(() => {
+    const start = Number(sessionStorage.getItem("loginTime"));
+    const remain = SESSION_TIME - (Date.now() - start);
+    if (remain <= 0) logout();
 
-  function update() {
-    const elapsed = Date.now() - loginTime;
-    const remaining = SESSION_TIME - elapsed;
-
-    if (remaining <= 0) {
-      sessionStorage.clear();
-      location.href = "login.html";
-      return;
-    }
-
-    const min = Math.floor(remaining / 60000);
-    const sec = Math.floor((remaining % 60000) / 1000);
-    timerEl.textContent = `${String(min).padStart(2, "0")}:${String(
-      sec
-    ).padStart(2, "0")}`;
-  }
-
-  update();
-  countdownInterval = setInterval(update, 1000);
+    const m = Math.floor(remain / 60000);
+    const s = Math.floor((remain % 60000) / 1000);
+    el.textContent = `${m.toString().padStart(2, "0")}:${s
+      .toString()
+      .padStart(2, "0")}`;
+  }, 1000);
 }
 
 function logout() {
   sessionStorage.clear();
-  localStorage.removeItem("sessionExpire");
-
-  window.location.href = "login.html";
+  location.href = "login.html";
 }
+
+function togglePassword(el) {
+  const wrapper = el.closest(".password-wrapper");
+  const input = wrapper.querySelector("input");
+
+  if (!input) return;
+
+  const isPassword = input.type === "password";
+  input.type = isPassword ? "text" : "password";
+  el.textContent = isPassword ? "🙈" : "👁";
+}
+
+/* Anti DevTools basic */
+document.addEventListener("contextmenu", (e) => e.preventDefault());
+document.onkeydown = (e) => {
+  if (e.key === "F12" || (e.ctrlKey && e.shiftKey)) e.preventDefault();
+};
