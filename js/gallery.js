@@ -6,6 +6,7 @@ let pageSize = 50;
 let currentPage = 1;
 let activeMenuItem = null;
 let headerCollapsed = false;
+const SECRET = "g@ll3ry";
 
 async function loadGallery() {
   data = await fetch("images.json").then((r) => r.json());
@@ -76,10 +77,23 @@ function renderImages(folder, images) {
 function applySort(mode) {
   viewImages = [...currentImages];
 
-  if (mode === "name") viewImages.sort((a, b) => a.name.localeCompare(b.name));
-  if (mode === "date") viewImages.sort((a, b) => b.mtime - a.mtime);
-  if (mode === "size") viewImages.sort((a, b) => b.size - a.size);
-  if (mode === "random") viewImages.sort(() => Math.random() - 0.5);
+  if (mode === "name") {
+    viewImages.sort((a, b) =>
+      decodePath(a.p).localeCompare(decodePath(b.p))
+    );
+  }
+
+  if (mode === "date") {
+    viewImages.sort((a, b) => b.t - a.t);
+  }
+
+  if (mode === "size") {
+    viewImages.sort((a, b) => b.s - a.s);
+  }
+
+  if (mode === "random") {
+    viewImages.sort(() => Math.random() - 0.5);
+  }
 
   currentPage = 1;
   renderPage();
@@ -103,7 +117,7 @@ function renderPage() {
     div.className = "gallery-item";
 
     const image = document.createElement("img");
-    image.dataset.src = `images/${currentFolder}/${img.name}`;
+    image.dataset.src = `images/${decodePath(img.p)}`;
     image.alt = img.name;
     image.className = "lazy";
     image.onclick = () => openLightbox(start + i);
@@ -263,4 +277,15 @@ function filterSubmenu(keyword, submenu) {
       ? ""
       : "none";
   });
+}
+
+function decodePath(encoded) {
+  const decoded = atob(encoded);
+  return [...decoded]
+    .map((c, i) =>
+      String.fromCharCode(
+        c.charCodeAt(0) ^ SECRET.charCodeAt(i % SECRET.length)
+      )
+    )
+    .join("");
 }

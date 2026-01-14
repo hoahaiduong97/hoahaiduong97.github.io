@@ -76,7 +76,7 @@ function togglePassword(el) {
 }
 
 /* Anti DevTools basic */
-document.addEventListener("contextmenu", (e) => e.preventDefault());
-document.onkeydown = (e) => {
-  if (e.key === "F12" || (e.ctrlKey && e.shiftKey)) e.preventDefault();
-};
+// document.addEventListener("contextmenu", (e) => e.preventDefault());
+// document.onkeydown = (e) => {
+//   if (e.key === "F12" || (e.ctrlKey && e.shiftKey)) e.preventDefault();
+// };
