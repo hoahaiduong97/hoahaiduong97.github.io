@@ -9,7 +9,7 @@ function openLightbox(index) {
   box.className = "lightbox";
 
   const img = document.createElement("img");
-  img.src = `images/${currentFolder}/${viewImages[currentIndex].name}`;
+  img.src = `images/${decodePath(viewImages[currentIndex].p)}`;
 
   box.appendChild(img);
   document.body.appendChild(box);
@@ -44,7 +44,7 @@ function navigate(step) {
   currentIndex = (currentIndex + step + viewImages.length) % viewImages.length;
   document.querySelector(
     ".lightbox img"
-  ).src = `images/${currentFolder}/${viewImages[currentIndex].name}`;
+  ).src = `images/${currentFolder}/${viewImages[currentIndex].p}`;
 }
 
 function closeLightbox() {
@@ -55,7 +55,7 @@ function navigate(step) {
   currentIndex = (currentIndex + step + viewImages.length) % viewImages.length;
 
   const img = document.querySelector(".lightbox img");
-  img.src = `images/${currentFolder}/${viewImages[currentIndex].name}`;
+  img.src = `images/${decodePath(viewImages[currentIndex].p)}`;
 
   const galleryItems = document.querySelectorAll(".gallery-item");
   galleryItems[currentIndex]?.scrollIntoView({
