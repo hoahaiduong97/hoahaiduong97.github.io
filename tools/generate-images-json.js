@@ -33,4 +33,4 @@ fs.writeFileSync(
   JSON.stringify(scan(IMAGES_DIR), null, 2)
 );
 
-console.log("✅ images.json generated");
+console.log("✅ images.json generated.");
