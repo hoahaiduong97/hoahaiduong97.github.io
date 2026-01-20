@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
@@ -9,13 +9,19 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
 
-  <body onload="checkAuth(); startSessionCountdown(); loadGallery()">
+  <body
+    onload="
+      checkAuth();
+      startSessionCountdown();
+      loadGallery();
+    "
+  >
     <button class="btn btn-sm btn-outline-primary" onclick="toggleHeader()">
       ☰
     </button>
     <header id="mainHeader">
       <div class="header-left">
-        <nav id="menu"></nav>
+        <nav id="menu" class="menu-bar"></nav>
       </div>
 
       <div class="header-right">

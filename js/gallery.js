@@ -278,6 +278,58 @@ function filterSubmenu(keyword, submenu) {
       : "none";
   });
 }
+function renderMenu(node, container, basePath) {
+  container.innerHTML = "";
+
+  Object.entries(node.children).forEach(([name, value]) => {
+    const item = document.createElement("div");
+    item.className = "menu-item";
+
+    const label = document.createElement("div");
+    label.className = "menu-label";
+    label.textContent = name;
+
+    const fullPath = basePath ? `${basePath}/${name}` : name;
+
+    label.onclick = (e) => {
+      e.stopPropagation();
+
+      // active
+      document
+        .querySelectorAll(".menu-item.active")
+        .forEach((x) => x.classList.remove("active"));
+      item.classList.add("active");
+
+      // toggle dropdown
+      if (Object.keys(value.children).length) {
+        item.classList.toggle("open");
+      }
+
+      // render ảnh
+      if (value.images?.length) {
+        renderImages(fullPath, value.images);
+      }
+    };
+
+    item.appendChild(label);
+
+    if (Object.keys(value.children).length) {
+      const sub = document.createElement("div");
+      sub.className = "submenu";
+
+      const search = document.createElement("input");
+      search.className = "submenu-search";
+      search.placeholder = "Search...";
+      search.oninput = () => filterSubmenu(search.value, sub);
+
+      sub.appendChild(search);
+      renderMenu(value, sub, fullPath);
+      item.appendChild(sub);
+    }
+
+    container.appendChild(item);
+  });
+}
 
 function decodePath(encoded) {
   const decoded = atob(encoded);

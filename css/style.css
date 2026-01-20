@@ -46,38 +46,112 @@ header {
 }
 
 /* ===== SUBMENU ===== */
-.submenu {
-  position: absolute;
-  top: 110%;
-  left: 0;
-  min-width: 220px;
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-  border: 1px solid #e5e7eb;
-  display: none;
-  padding: 6px;
-  z-index: 9999;
-  max-height: 500px;
-  overflow-y: scroll;
+.menu-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
+/* item cha */
+.menu-item {
+  position: relative;
+}
+
+.menu-label {
+  padding: 8px 14px;
+  background: #eef2ff;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.menu-label:hover {
+  background: #dbeafe;
+}
+
+.menu-item.active > .menu-label {
+  background: #2563eb;
+  color: #fff;
+}
+
+/* ===== DROPDOWN ===== */
+.submenu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 240px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  padding: 8px;
+  display: none;
+  z-index: 9999;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+/* mũi tên nhỏ */
+.submenu::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 20px;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  transform: rotate(45deg);
+  border-left: 1px solid #e5e7eb;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* mở dropdown */
 .menu-item.open > .submenu {
   display: block;
 }
 
-/* submenu items */
+/* item con */
 .submenu .menu-item {
-  display: block;
-  margin: 4px 0;
-  background: transparent;
-  padding: 8px 10px;
-  border-radius: 6px;
+  margin: 2px 0;
 }
 
-.submenu .menu-item:hover {
+.submenu .menu-label {
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: transparent;
+}
+
+.submenu .menu-label:hover {
   background: #f1f5f9;
 }
+
+/* search trong submenu */
+.submenu-search {
+  width: 100%;
+  padding: 6px 8px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .menu-bar {
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .submenu {
+    position: fixed;
+    left: 8px;
+    right: 8px;
+    top: 70px;
+    max-height: 70vh;
+  }
+}
+
 
 /* ===== CONTROLS ===== */
 .controls {
@@ -288,7 +362,7 @@ img:not(.lazy) {
   background: #eef4ff;
   color: #2f5fe3;
   font-weight: 600;
-  border-left: 3px solid #4f7cff;
+  border: 1px solid #4f7cff;
   padding-left: 7px;
 }
 
