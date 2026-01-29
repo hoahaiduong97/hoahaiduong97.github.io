@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ERP Video</title>
+
+    <link rel="stylesheet" href="dist/app.min.css" />
+  </head>
+
+  <body
+    onload="
+      checkAuth();
+      startSessionCountdown();
+    "
+  >
+    <!-- HEADER -->
+    <header id="mainHeader">
+      <div class="header-left">
+        <h5 class="mb-0">🎬 Video Center</h5>
+      </div>
+
+      <div class="header-right">
+        <div class="controls">
+          <a href="index.html" class="btn btn-outline-secondary btn-sm">
+            ⬅ Gallery
+          </a>
+
+          <button class="btn btn-danger btn-sm" onclick="logout()">
+            Logout
+          </button>
+        </div>
+
+        <div id="sessionTimer">30:00</div>
+      </div>
+    </header>
+
+    <main class="container">
+      <h3 class="mb-4">🎬 Danh sách video</h3>
+
+      <div class="row g-4 video-gallery">
+        <!-- VIDEO ITEM -->
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="video-card">
+            <div class="ratio ratio-16x9">
+              <iframe
+                src="https://drive.google.com/file/d/1OD9nu8jocox4rB-mN6Ten9ANLGwSSsQ7/preview"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-title">Ám Ảnh Ngoại Tình 1</div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="video-card">
+            <div class="ratio ratio-16x9">
+              <iframe
+                src="https://drive.google.com/file/d/1-JzhYDxon7OmAwrLseAftIFB2H2rfeWY/preview"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-title">Ám Ảnh Ngoại Tình 2</div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="video-card">
+            <div class="ratio ratio-16x9">
+              <iframe
+                src="https://drive.google.com/file/d/1JTwOAKO3v1JYzKS_P1_2XS_YHh-TXavB/preview"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-title">Bá Mẹ Trẻ</div>
+          </div>
+        </div>
+
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="video-card">
+            <div class="ratio ratio-16x9">
+              <iframe
+                src="https://drive.google.com/file/d/1rXEi3rdMC1CHV4AituJcajmclyspdllX/preview"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-title">Biển Động Kinh Hồn</div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="video-card">
+            <div class="ratio ratio-16x9">
+              <iframe
+                src="https://drive.google.com/file/d/193iXwCTq7niEg7Gfvr1NovN2Wbotp4o5/preview"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-title">Cô Chủ và Chàng Hầu</div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="video-card">
+            <div class="ratio ratio-16x9">
+              <iframe
+                src="https://drive.google.com/file/d/1r51SNffxY9ZhuMBzSj4g7xw0IqZ276kv/preview"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-title">Tình Ái Vương Phi 1</div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="video-card">
+            <div class="ratio ratio-16x9">
+              <iframe
+                src="https://drive.google.com/file/d/1APoD7lZ2XWJCfUvWfP7F6CCAu61m-uH2/preview"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-title">Tình Ái Vương Phi 2</div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="video-card">
+            <div class="ratio ratio-16x9">
+              <iframe
+                src="https://drive.google.com/file/d/1PDq6VRbYft6A-k-ljy82iSFL42QyGlYq/preview"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-title">Trai Bao 1</div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="video-card">
+            <div class="ratio ratio-16x9">
+              <iframe
+                src="https://drive.google.com/file/d/1cJfbYYRlXeDQcIeiNhtbgl_siAQYNspS/preview"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-title">Trai Bao 2</div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-6">
+          <div class="video-card">
+            <div class="ratio ratio-16x9">
+              <iframe
+                src="https://drive.google.com/file/d/1drscXeAo2CDL2WqL52TjUY4RN47FnWNu/preview"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <div class="video-title">Trai Bao 3</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="dist/app.min.js"></script>
+  </body>
+</html>
